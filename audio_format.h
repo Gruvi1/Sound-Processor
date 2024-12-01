@@ -12,15 +12,10 @@ public:
     ~TAudioFormat() = default;
     void Open(TWavReader* file);
 
-    uint16_t GetSample(size_t n) const;
+    int16_t GetSample() const;
+    int16_t GetExtraSample() const;
     uint32_t GetSampleRate() const;
     size_t GetLastSample() const;
-
-    void SendSample(const uint16_t& sample);
-};
-
-
-class IAudioFormat {
-public:
-    virtual ~IAudioFormat() = default;
+    void SendSample(const int16_t& sample);
+    void Seekp(size_t shift, std::ios_base::seekdir dir);
 };

@@ -1,8 +1,9 @@
 #pragma once
 
 #include <memory>
-#include "mute_converter.h"
 #include "empty_converter.h"
+#include "mute_converter.h"
+#include "mix_converter.h"
 
 
 class TConverterFactory {

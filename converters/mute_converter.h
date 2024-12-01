@@ -7,5 +7,5 @@ class TMuteConverter: public IConverter {
 public:
     TMuteConverter() = default;
     ~TMuteConverter() override = default;
-    uint16_t Convert(const TAudioFormat& file) const override;
+    int16_t Convert(const TAudioFormat& file) const override;
 };

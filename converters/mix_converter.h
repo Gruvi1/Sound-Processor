@@ -3,9 +3,9 @@
 #include "abstract_converter.h"
 
 
-class TEmptyConverter: public IConverter {
+class TMixConverter: public IConverter {
 public:
-    TEmptyConverter() = default;
-    ~TEmptyConverter() override = default;
+    TMixConverter() = default;
+    ~TMixConverter() override = default;
     int16_t Convert(const TAudioFormat& file) const override;
 };

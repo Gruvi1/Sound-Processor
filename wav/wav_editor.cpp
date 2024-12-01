@@ -36,8 +36,8 @@ TWavReader::~TWavReader() {
     file.close();
 }
 
-uint16_t TWavReader::GetSample() {
-    uint16_t sample;
+int16_t TWavReader::GetSample() {
+    int16_t sample;
     file.read(reinterpret_cast<char*>(&sample), sizeof(sample));
     return sample;
 }
@@ -56,7 +56,10 @@ void TWavReader::SetInPosition(size_t position) {
 
 
 TWav::TWav(const std::string& pathFile) {
-    file.open(pathFile, std::ios::out | std::ios::binary);
+    file.open(pathFile, std::ios::out);
+    file.close();
+
+    file.open(pathFile, std::ios::in | std::ios::out | std::ios::binary);
 }
 
 TWav::~TWav() {
@@ -72,22 +75,29 @@ void TWav::WriteHeader() {
     file.write(reinterpret_cast<const char*>(&header), sizeof(header));
 }
 
-void TWav::SendSample(const uint16_t& sample) {
+int16_t TWav::GetSample() {
+    int16_t sample;
+    file.read(reinterpret_cast<char*>(&sample), sizeof(sample));
+    return sample;
+}
+
+void TWav::SendSample(const int16_t& sample) {
     file.write(reinterpret_cast<const char*>(&sample), sizeof(sample));
 }
 
-size_t TWav::GetCurrentOutPosition() {
+const TWav::THeader& TWav::GetHeader() const {
+    return header;
+}
+
+size_t TWav::GetCurrentPosition() {
     return file.tellp();
 }
 
-// size_t TWav::GetCurrentInPosition() {
-//     return file.tellg();
-// }
 
-void TWav::SetOutPosition(size_t position) {
+void TWav::SetPosition(size_t position) {
     file.seekp(position);
 }
 
-// void TWav::SetInPosition(size_t position) {
-//     file.seekg(position);
-// }
+void TWav::Seekp(size_t shift, std::ios_base::seekdir dir) {
+    file.seekp(shift, dir);
+}
