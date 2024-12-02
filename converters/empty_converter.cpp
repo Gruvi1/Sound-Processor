@@ -1,9 +1,6 @@
 #include "empty_converter.h"
 
 
-int16_t TEmptyConverter::Convert(const TAudioFormat& file) const {
-    int16_t convertedSample;
-    convertedSample = file.GetSample();
+void TEmptyConverter::Convert(TAudioFormat& file, std::vector<std::string>& instruction) const {
 
-    return convertedSample;
 }

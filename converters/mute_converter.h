@@ -7,5 +7,5 @@ class TMuteConverter: public IConverter {
 public:
     TMuteConverter() = default;
     ~TMuteConverter() override = default;
-    int16_t Convert(const TAudioFormat& file) const override;
+    void Convert(TAudioFormat& file, std::vector<std::string>& instruction) const override;
 };

@@ -36,7 +36,7 @@ public:
 };
 
 
-class TWavReader: public virtual IWavFile {
+class TWavReader: public IWavFile {
 private:
     std::ifstream file;
 
@@ -46,8 +46,9 @@ public:
     ~TWavReader() override;
     int16_t GetSample();
     const THeader& GetHeader() const;
-    size_t GetCurrentInPosition();
-    void SetInPosition(size_t position);
+    size_t GetCurrentPosition();
+    void SetPosition(size_t position);
+    void Seekg(size_t shift, std::ios_base::seekdir dir);
 };
 
 
@@ -64,7 +65,6 @@ public:
     int16_t GetSample();
     void SendSample(const int16_t& sample);
     const THeader& GetHeader() const;
-
     size_t GetCurrentPosition();
     void SetPosition(size_t position);
     void Seekp(size_t shift, std::ios_base::seekdir dir);

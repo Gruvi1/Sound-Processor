@@ -1,5 +1,6 @@
 #include "wav_editor.h"
 
+
 TWavReader::TWavReader(const std::string& pathFile) {
     file.open(pathFile, std::ios::in | std::ios::binary);
 
@@ -39,6 +40,7 @@ TWavReader::~TWavReader() {
 int16_t TWavReader::GetSample() {
     int16_t sample;
     file.read(reinterpret_cast<char*>(&sample), sizeof(sample));
+
     return sample;
 }
 
@@ -46,12 +48,16 @@ const TWavReader::THeader& TWavReader::GetHeader() const {
     return header;
 }
 
-size_t TWavReader::GetCurrentInPosition() {
+size_t TWavReader::GetCurrentPosition() {
     return file.tellg();
 }
 
-void TWavReader::SetInPosition(size_t position) {
+void TWavReader::SetPosition(size_t position) {
     file.seekg(position, std::ios::beg);
+}
+
+void TWavReader::Seekg(size_t shift, std::ios_base::seekdir dir) {
+    file.seekg(shift, dir);
 }
 
 
@@ -92,7 +98,6 @@ const TWav::THeader& TWav::GetHeader() const {
 size_t TWav::GetCurrentPosition() {
     return file.tellp();
 }
-
 
 void TWav::SetPosition(size_t position) {
     file.seekp(position);

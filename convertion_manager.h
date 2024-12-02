@@ -13,9 +13,9 @@ private:
 
 public:
     TConvertionManager(const int& argc, char* argv[]);
+    ~TConvertionManager() = default;
     void ConvertByConfig();
 
 private:
-    void UseConverter(const IConverter* converter, std::pair<size_t, size_t> interval, TAudioFormat& AudioFormat);
     void CopyData(TAudioFormat& AudioFormat, const std::string& strFileNum);
 };

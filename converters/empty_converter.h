@@ -7,5 +7,5 @@ class TEmptyConverter: public IConverter {
 public:
     TEmptyConverter() = default;
     ~TEmptyConverter() override = default;
-    int16_t Convert(const TAudioFormat& file) const override;
+    void Convert(TAudioFormat& file, std::vector<std::string>& instruction) const override;
 };
