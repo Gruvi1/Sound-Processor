@@ -16,7 +16,7 @@ void AddEchoForSample(int16_t sample, IAudioFormat& file) {
     file.SetOutPosition(curOutPosition);
 }
 
-void TChorusConverter::Convert(IAudioFormat& file, std::vector<std::string>& instruction) const {
+void TEchoConverter::Convert(IAudioFormat& file, std::vector<std::string>& instruction) const {
     size_t curOutPosition = file.GetCurrentOutPosition();
 
     size_t startTime = std::stoull(instruction[instruction.size() - 2]);

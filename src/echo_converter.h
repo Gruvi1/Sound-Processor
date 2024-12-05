@@ -3,9 +3,9 @@
 #include "abstract_converter.h"
 
 
-class TChorusConverter: public IConverter {
+class TEchoConverter: public IConverter {
 public:
-    TChorusConverter() = default;
-    ~TChorusConverter() override = default;
+    TEchoConverter() = default;
+    ~TEchoConverter() override = default;
     void Convert(IAudioFormat& file, std::vector<std::string>& instruction) const override;
 };
