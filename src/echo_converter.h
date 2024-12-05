@@ -3,9 +3,9 @@
 #include "abstract_converter.h"
 
 
-class TMixConverter: public IConverter {
+class TChorusConverter: public IConverter {
 public:
-    TMixConverter() = default;
-    ~TMixConverter() override = default;
+    TChorusConverter() = default;
+    ~TChorusConverter() override = default;
     void Convert(IAudioFormat& file, std::vector<std::string>& instruction) const override;
 };

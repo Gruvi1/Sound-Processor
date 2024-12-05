@@ -4,6 +4,8 @@
 #include "empty_converter.h"
 #include "mute_converter.h"
 #include "mix_converter.h"
+#include "echo_converter.h"
+
 
 class TConverterFactory {
 public:

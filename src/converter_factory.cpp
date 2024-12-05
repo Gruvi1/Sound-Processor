@@ -8,6 +8,9 @@ std::unique_ptr<IConverter> TConverterFactory::MakeConverter(std::string_view ty
     else if (typeConverter == "mix") {
         return std::make_unique<TMixConverter>();
     }
+    else if (typeConverter == "echo") {
+        return std::make_unique<TChorusConverter>();
+    }
     else {
         return std::make_unique<TEmptyConverter>();
     }

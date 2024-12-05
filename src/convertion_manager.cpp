@@ -1,9 +1,9 @@
+#include "sound_processor/convertion_manager.h"
 #include "../include/sound_processor/convertion_manager.h"
 
 
 TConvertionManager::TConvertionManager(const int& argc, char* argv[]) {
     for (size_t i = 1; i != argc - 2; ++i) {
-        TWavReader file(argv[i]);
         filesIn.push_back(std::make_unique<TWavReader>(argv[i]));
     }
 
@@ -16,7 +16,8 @@ TConvertionManager::TConvertionManager(const int& argc, char* argv[]) {
 void TConvertionManager::ConvertByConfig() {
     TConverterFactory ConverterFactory;
     std::unique_ptr<IConverter> converter;
-    TAudioFormat AudioFormat(fileOut.get());
+
+    TWavFormat AudioFormat(fileOut.get());
 
     CopyData(AudioFormat, config[0][1]);
 
@@ -35,7 +36,7 @@ void TConvertionManager::ConvertByConfig() {
     }
 }
 
-void TConvertionManager::CopyData(TAudioFormat& AudioFormat, const std::string& strFileNum) {
+void TConvertionManager::CopyData(TWavFormat& AudioFormat, const std::string& strFileNum) {
     std::string temp = strFileNum;
     size_t fileNum = std::stoull(temp.erase(0, 1));
 
@@ -54,6 +55,6 @@ void TConvertionManager::CopyData(TAudioFormat& AudioFormat, const std::string& 
         AudioFormat.SendSample(sample);
     }
 
-    filesIn[fileNum - 1].get()->SetPosition(curInPosition);
-    fileOut.get()->SetPosition(curOutPosition);
+    filesIn[fileNum - 1].get()->Seekg(curInPosition);
+    fileOut.get()->Seekp(curOutPosition);
 }

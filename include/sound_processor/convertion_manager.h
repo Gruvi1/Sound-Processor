@@ -4,7 +4,6 @@
 #include "audio_format.h"
 #include "converter_factory.h"
 
-
 class TConvertionManager {
 private:
     std::vector<std::unique_ptr<TWavReader>> filesIn;
@@ -17,5 +16,5 @@ public:
     void ConvertByConfig();
 
 private:
-    void CopyData(TAudioFormat& AudioFormat, const std::string& strFileNum);
+    void CopyData(TWavFormat& AudioFormat, const std::string& strFileNum);
 };

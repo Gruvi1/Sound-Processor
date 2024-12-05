@@ -47,12 +47,12 @@ public:
     int16_t GetSample();
     const THeader& GetHeader() const;
     size_t GetCurrentPosition();
-    void SetPosition(size_t position);
+    void Seekg(size_t shift);
     void Seekg(size_t shift, std::ios_base::seekdir dir);
 };
 
 
-class TWav: public virtual IWavFile {
+class TWav: public IWavFile {
 private:
     std::fstream file;
 
@@ -66,6 +66,6 @@ public:
     void SendSample(const int16_t& sample);
     const THeader& GetHeader() const;
     size_t GetCurrentPosition();
-    void SetPosition(size_t position);
+    void Seekp(size_t shift);
     void Seekp(size_t shift, std::ios_base::seekdir dir);
 };
