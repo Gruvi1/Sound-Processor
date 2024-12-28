@@ -1,5 +1,11 @@
 #include "wav_editor.h"
 
+
+static const int suppAudioFormat = 1;
+static const int suppNumChannels = 1;
+static const int suppSampleRate = 44100;
+static const int suppBitsPerSample = 16;
+
 TWavReader::TWavReader(const std::string& pathFile) {
     file.open(pathFile, std::ios::in | std::ios::binary);
 
@@ -7,58 +13,49 @@ TWavReader::TWavReader(const std::string& pathFile) {
     file.read(reinterpret_cast<char*>(&header.chunkSize), sizeof(header.chunkSize));
     file.read(reinterpret_cast<char*>(&header.format), sizeof(header.format));
 
-
     size_t curPosition = file.tellg();
     int count = 0;
     std::string wordFmt = "fmt ";
+    std::array<char, 4> temp;
+    uint32_t tempSize;
     while (count != 4) {
         count = 0;
         file.seekg(curPosition, std::ios::beg);
         for (int i = 0; i != header.subchunk1Id.size(); ++i) {
-            file.get(header.subchunk1Id[i]);
-            if (header.subchunk1Id[i] == wordFmt[i]) {
+            file.get(temp[i]);
+            if (temp[i] == wordFmt[i]) {
                 ++count;
             }
         }
-        file.read(reinterpret_cast<char*>(&header.subchunk1Size), sizeof(header.subchunk1Size));
+        file.read(reinterpret_cast<char*>(&tempSize), sizeof(tempSize));
         curPosition += header.subchunk1Size + sizeof(header.subchunk1Size) + sizeof(header.subchunk1Id);
     }
-
-
+    header.subchunk1Id = temp;
+    header.subchunk1Size = tempSize;
 
     file.read(reinterpret_cast<char*>(&header.audioFormat), sizeof(header.audioFormat));
-    if (header.audioFormat != 1) {
+    if (header.audioFormat != suppAudioFormat) {
 
         this->~TWavReader();
         exit(EXIT_FAILURE);
     }
-    if (header.audioFormat != 1) {
 
-        this->~TWavReader();
-        exit(EXIT_FAILURE);
-    }
     file.read(reinterpret_cast<char*>(&header.numChannels), sizeof(header.numChannels));
-    if (header.numChannels != 1) {
+    if (header.numChannels != suppNumChannels) {
         this->~TWavReader();
         exit(EXIT_FAILURE);
     }
-    if (header.numChannels != 1) {
-        this->~TWavReader();
-        exit(EXIT_FAILURE);
-    }
+
     file.read(reinterpret_cast<char*>(&header.sampleRate), sizeof(header.sampleRate));
-    if (header.sampleRate != 44100) {
+    if (header.sampleRate != suppSampleRate) {
         this->~TWavReader();
         exit(EXIT_FAILURE);
     }
+
     file.read(reinterpret_cast<char*>(&header.byteRate), sizeof(header.byteRate));
     file.read(reinterpret_cast<char*>(&header.blockAlign), sizeof(header.blockAlign));
     file.read(reinterpret_cast<char*>(&header.bitsPerSample), sizeof(header.bitsPerSample));
-    if (header.bitsPerSample != 16) {
-        this->~TWavReader();
-        exit(EXIT_FAILURE);
-    }
-    if (header.bitsPerSample != 16) {
+    if (header.bitsPerSample != suppBitsPerSample) {
         this->~TWavReader();
         exit(EXIT_FAILURE);
     }
@@ -70,14 +67,16 @@ TWavReader::TWavReader(const std::string& pathFile) {
         count = 0;
         file.seekg(curPosition, std::ios::beg);
         for (int i = 0; i != header.subchunk2Id.size(); ++i) {
-            file.get(header.subchunk2Id[i]);
-            if (header.subchunk2Id[i] == wordData[i]) {
+            file.get(temp[i]);
+            if (temp[i] == wordData[i]) {
                 ++count;
             }
         }
-        file.read(reinterpret_cast<char*>(&header.subchunk2Size), sizeof(header.subchunk2Size));
+        file.read(reinterpret_cast<char*>(&tempSize), sizeof(tempSize));
         curPosition += header.subchunk2Size + sizeof(header.subchunk2Size) + sizeof(header.subchunk2Id);
     }
+    header.subchunk2Id = temp;
+    header.subchunk2Size = tempSize;
 }
 
 TWavReader::~TWavReader() {
